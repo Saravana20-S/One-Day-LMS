@@ -1,33 +1,34 @@
 package com.bridgelabz.lms.service.impl;
 
+import com.bridgelabz.lms.dto.event.AssignmentSubmittedEvent;
 import com.bridgelabz.lms.service.NotificationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-/**
- * Basic notification service.
+/*
+ * Handles notification processing.
  *
- * Later, the JMS Consumer will call this service
- * when an assignment submission event is received.
+ * Currently logs the notification.
+ * Later this can be extended to support
+ * email, SMS or push notifications.
  */
+@Slf4j
 @Service
 public class NotificationServiceImpl
         implements NotificationService {
 
-    private static final Logger logger =
-            LoggerFactory.getLogger(
-                    NotificationServiceImpl.class);
-
     @Override
-    public void notifyAssignmentSubmission(
-            Long submissionId) {
+    public void notifyAssignmentSubmitted(
+            AssignmentSubmittedEvent event
+    ) {
 
-        // Currently log the notification.
-        // JMS integration will be added in Phase 7.
-        logger.info(
-                "Notification: Assignment submission received. Submission ID: {}",
-                submissionId
+        log.info(
+                "NOTIFICATION: Assignment submitted. " +
+                        "Student ID: {}, Assignment ID: {}, " +
+                        "Submission ID: {}",
+                event.getStudentId(),
+                event.getAssignmentId(),
+                event.getSubmissionId()
         );
     }
 }

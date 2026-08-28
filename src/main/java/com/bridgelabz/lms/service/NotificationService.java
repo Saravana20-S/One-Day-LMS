@@ -1,14 +1,17 @@
 package com.bridgelabz.lms.service;
 
-/**
- * Handles notifications related to LMS activities.
+import com.bridgelabz.lms.dto.event.AssignmentSubmittedEvent;
+
+/*
+ * Handles LMS notifications.
  */
 public interface NotificationService {
 
-    /**
-     * Send notification when an assignment is submitted.
+    /*
+     * Processes notification for
+     * assignment submission.
      */
-    void notifyAssignmentSubmission(
-            Long submissionId
+    void notifyAssignmentSubmitted(
+            AssignmentSubmittedEvent event
     );
 }

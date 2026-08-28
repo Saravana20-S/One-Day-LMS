@@ -2,6 +2,7 @@ package com.bridgelabz.lms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jms.annotation.EnableJms;
 
 /*
  * Main entry point of the LMS application.
@@ -29,6 +30,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * should remain inside com.bridgelabz.lms.
  */
+
+@EnableJms
 @SpringBootApplication
 public class LmsApplication {
 

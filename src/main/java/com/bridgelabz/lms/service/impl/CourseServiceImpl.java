@@ -10,6 +10,8 @@ import com.bridgelabz.lms.mapper.CourseMapper;
 import com.bridgelabz.lms.repository.CourseRepository;
 import com.bridgelabz.lms.repository.UserRepository;
 import com.bridgelabz.lms.service.CourseService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,30 +19,24 @@ import java.util.List;
 /**
  * Implementation of CourseService.
  */
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final CourseMapper courseMapper;
 
-    /**
-     * Constructor injection.
-     */
-    public CourseServiceImpl(
-            CourseRepository courseRepository,
-            UserRepository userRepository,
-            CourseMapper courseMapper) {
-
-        this.courseRepository = courseRepository;
-        this.userRepository = userRepository;
-        this.courseMapper = courseMapper;
-    }
-
     @Override
     public CourseResponse createCourse(
             CourseRequest request,
             Long instructorId) {
+
+        log.info(
+                "Creating course for instructor ID: {}",
+                instructorId
+        );
 
         // Find the instructor.
         User instructor = userRepository.findById(instructorId)
@@ -55,6 +51,11 @@ public class CourseServiceImpl implements CourseService {
 
         // Save course.
         Course savedCourse = courseRepository.save(course);
+
+        log.info(
+                "Course created successfully. Course ID: {}",
+                savedCourse.getId()
+        );
 
         // Convert entity to response DTO.
         return courseMapper.toResponse(savedCourse);
