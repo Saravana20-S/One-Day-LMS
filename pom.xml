@@ -58,8 +58,7 @@
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
 
-		<!-- Spring AOP -->
-		<!-- AOP -->
+
 		<!-- Spring AOP -->
 		<dependency>
 			<groupId>org.springframework</groupId>
