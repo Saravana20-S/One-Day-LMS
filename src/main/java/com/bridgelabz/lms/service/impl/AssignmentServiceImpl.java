@@ -4,6 +4,8 @@ import com.bridgelabz.lms.dto.request.AssignmentRequest;
 import com.bridgelabz.lms.dto.response.AssignmentResponse;
 import com.bridgelabz.lms.entity.Assignment;
 import com.bridgelabz.lms.entity.Course;
+import com.bridgelabz.lms.exception.BusinessException;
+import com.bridgelabz.lms.exception.ResourceNotFoundException;
 import com.bridgelabz.lms.mapper.AssignmentMapper;
 import com.bridgelabz.lms.repository.AssignmentRepository;
 import com.bridgelabz.lms.repository.CourseRepository;
@@ -48,13 +50,13 @@ public class AssignmentServiceImpl
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(() ->
-                        new RuntimeException("Course not found"));
+                        new ResourceNotFoundException("Course not found"));
 
         // Verify instructor ownership.
         if (!course.getInstructor().getId()
                 .equals(instructorId)) {
 
-            throw new RuntimeException(
+            throw new BusinessException(
                     "You are not authorized to create assignments for this course"
             );
         }
@@ -82,7 +84,7 @@ public class AssignmentServiceImpl
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(() ->
-                        new RuntimeException("Course not found"));
+                        new ResourceNotFoundException("Course not found"));
 
         // Get assignments.
         return assignmentRepository

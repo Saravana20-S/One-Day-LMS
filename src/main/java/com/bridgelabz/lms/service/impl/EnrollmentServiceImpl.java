@@ -6,6 +6,7 @@ import com.bridgelabz.lms.entity.Course;
 import com.bridgelabz.lms.entity.Enrollment;
 import com.bridgelabz.lms.entity.User;
 import com.bridgelabz.lms.enums.EnrollmentStatus;
+import com.bridgelabz.lms.exception.ResourceNotFoundException;
 import com.bridgelabz.lms.mapper.EnrollmentMapper;
 import com.bridgelabz.lms.repository.CourseRepository;
 import com.bridgelabz.lms.repository.EnrollmentRepository;
@@ -54,13 +55,13 @@ public class EnrollmentServiceImpl
         // Find course.
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() ->
-                        new RuntimeException("Course not found"));
+                     new ResourceNotFoundException("Course not found"));
 
         // Find student.
         User student = userRepository
                 .findById(request.getStudentId())
                 .orElseThrow(() ->
-                        new RuntimeException("Student not found"));
+                   new ResourceNotFoundException("Student not found"));
 
         // Create enrollment.
         Enrollment enrollment = new Enrollment();

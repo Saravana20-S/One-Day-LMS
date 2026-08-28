@@ -4,6 +4,8 @@ import com.bridgelabz.lms.dto.request.CourseRequest;
 import com.bridgelabz.lms.dto.response.CourseResponse;
 import com.bridgelabz.lms.entity.Course;
 import com.bridgelabz.lms.entity.User;
+import com.bridgelabz.lms.exception.BusinessException;
+import com.bridgelabz.lms.exception.ResourceNotFoundException;
 import com.bridgelabz.lms.mapper.CourseMapper;
 import com.bridgelabz.lms.repository.CourseRepository;
 import com.bridgelabz.lms.repository.UserRepository;
@@ -43,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
         // Find the instructor.
         User instructor = userRepository.findById(instructorId)
                 .orElseThrow(() ->
-                        new RuntimeException("Instructor not found"));
+                        new ResourceNotFoundException("Instructor not found"));
 
         // Convert DTO to entity.
         Course course = courseMapper.toEntity(request);
@@ -77,13 +79,13 @@ public class CourseServiceImpl implements CourseService {
         // Find the course.
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() ->
-                        new RuntimeException("Course not found"));
+                   new ResourceNotFoundException("Course not found"));
 
         // Verify that the instructor owns the course.
         if (!course.getInstructor().getId()
                 .equals(instructorId)) {
 
-            throw new RuntimeException(
+            throw new BusinessException(
                     "You are not authorized to update this course"
             );
         }

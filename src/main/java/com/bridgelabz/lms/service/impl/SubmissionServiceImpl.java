@@ -6,6 +6,8 @@ import com.bridgelabz.lms.entity.Assignment;
 import com.bridgelabz.lms.entity.Submission;
 import com.bridgelabz.lms.entity.User;
 import com.bridgelabz.lms.enums.SubmissionStatus;
+import com.bridgelabz.lms.exception.BusinessException;
+import com.bridgelabz.lms.exception.ResourceNotFoundException;
 import com.bridgelabz.lms.mapper.SubmissionMapper;
 import com.bridgelabz.lms.repository.AssignmentRepository;
 import com.bridgelabz.lms.repository.SubmissionRepository;
@@ -57,14 +59,14 @@ public class SubmissionServiceImpl
                 assignmentRepository
                         .findById(assignmentId)
                         .orElseThrow(() ->
-                                new RuntimeException(
+                                new ResourceNotFoundException(
                                         "Assignment not found"));
 
         // Find student.
         User student = userRepository
                 .findById(request.getStudentId())
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new ResourceNotFoundException(
                                 "Student not found"));
 
         // Convert request DTO to entity.
@@ -101,8 +103,7 @@ public class SubmissionServiceImpl
                 assignmentRepository
                         .findById(assignmentId)
                         .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Assignment not found"));
+                         new ResourceNotFoundException("Assignment not found"));
 
         // Verify that the instructor owns the course.
         if (!assignment.getCourse()
@@ -110,7 +111,7 @@ public class SubmissionServiceImpl
                 .getId()
                 .equals(instructorId)) {
 
-            throw new RuntimeException(
+            throw new BusinessException(
                     "You are not authorized to view these submissions"
             );
         }
